@@ -28,6 +28,9 @@ class Passager
     #[ORM\Column(length: 255)]
     private ?string $reservation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'passager')]
+    private ?Vole $vole = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Passager
     public function setReservation(string $reservation): static
     {
         $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getVole(): ?Vole
+    {
+        return $this->vole;
+    }
+
+    public function setVole(?Vole $vole): static
+    {
+        $this->vole = $vole;
 
         return $this;
     }

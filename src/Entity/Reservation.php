@@ -16,6 +16,9 @@ class Reservation
     #[ORM\Column]
     private ?\DateTimeImmutable $dateReservation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    private ?Vole $vole = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Reservation
     public function setDateReservation(\DateTimeImmutable $dateReservation): static
     {
         $this->dateReservation = $dateReservation;
+
+        return $this;
+    }
+
+    public function getVole(): ?Vole
+    {
+        return $this->vole;
+    }
+
+    public function setVole(?Vole $vole): static
+    {
+        $this->vole = $vole;
 
         return $this;
     }
