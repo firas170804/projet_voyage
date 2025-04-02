@@ -22,14 +22,14 @@ class Compagnie
     private ?string $pays = null;
 
     /**
-     * @var Collection<int, Vole>
+     * @var Collection<int, Vol>
      */
-    #[ORM\OneToMany(targetEntity: Vole::class, mappedBy: 'compagnie')]
-    private Collection $passager;
+    #[ORM\OneToMany(targetEntity: Vol::class, mappedBy: 'idCompagnie')]
+    private Collection $vols;
 
     public function __construct()
     {
-        $this->passager = new ArrayCollection();
+        $this->vols = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,29 +62,29 @@ class Compagnie
     }
 
     /**
-     * @return Collection<int, Vole>
+     * @return Collection<int, Vol>
      */
-    public function getPassager(): Collection
+    public function getVols(): Collection
     {
-        return $this->passager;
+        return $this->vols;
     }
 
-    public function addPassager(Vole $passager): static
+    public function addVol(Vol $vol): static
     {
-        if (!$this->passager->contains($passager)) {
-            $this->passager->add($passager);
-            $passager->setCompagnie($this);
+        if (!$this->vols->contains($vol)) {
+            $this->vols->add($vol);
+            $vol->setIdCompagnie($this);
         }
 
         return $this;
     }
 
-    public function removePassager(Vole $passager): static
+    public function removeVol(Vol $vol): static
     {
-        if ($this->passager->removeElement($passager)) {
+        if ($this->vols->removeElement($vol)) {
             // set the owning side to null (unless already changed)
-            if ($passager->getCompagnie() === $this) {
-                $passager->setCompagnie(null);
+            if ($vol->getIdCompagnie() === $this) {
+                $vol->setIdCompagnie(null);
             }
         }
 

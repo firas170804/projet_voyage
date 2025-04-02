@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Vole;
+use App\Entity\Vol;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Vole>
+ * @extends ServiceEntityRepository<Vol>
  */
-class VoleRepository extends ServiceEntityRepository
+class VolRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Vole::class);
+        parent::__construct($registry, Vol::class);
     }
 
     //    /**
-    //     * @return Vole[] Returns an array of Vole objects
+    //     * @return Vol[] Returns an array of Vol objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class VoleRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Vole
+    //    public function findOneBySomeField($value): ?Vol
     //    {
     //        return $this->createQueryBuilder('v')
     //            ->andWhere('v.exampleField = :val')
