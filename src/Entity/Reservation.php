@@ -14,36 +14,66 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $dateReservation = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation')]
-    private ?Vole $vole = null;
+    #[ORM\Column(length: 255)]
+    private ?string $Type = null;
+
+    #[ORM\ManyToOne(inversedBy: 'idVol')]
+    private ?Vol $vol = null;
+
+    #[ORM\ManyToOne(inversedBy: 'idPassager')]
+    private ?Passager $passager = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateReservation(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->dateReservation;
+        return $this->createdAt;
     }
 
-    public function setDateReservation(\DateTimeImmutable $dateReservation): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->dateReservation = $dateReservation;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getVole(): ?Vole
+    public function getType(): ?string
     {
-        return $this->vole;
+        return $this->Type;
     }
 
-    public function setVole(?Vole $vole): static
+    public function setType(string $Type): static
     {
-        $this->vole = $vole;
+        $this->Type = $Type;
+
+        return $this;
+    }
+
+    public function getVol(): ?Vol
+    {
+        return $this->vol;
+    }
+
+    public function setVol(?Vol $vol): static
+    {
+        $this->vol = $vol;
+
+        return $this;
+    }
+
+    public function getPassager(): ?Passager
+    {
+        return $this->passager;
+    }
+
+    public function setPassager(?Passager $passager): static
+    {
+        $this->passager = $passager;
 
         return $this;
     }
