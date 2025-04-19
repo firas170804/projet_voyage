@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Compagnie;
 use App\Repository\VolRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,9 +32,9 @@ class Vol
     private ?compagnie $idCompagnie = null;
 
     /**
-     * @var Collection<int, reservation>
+     * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: reservation::class, mappedBy: 'vol')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'vol')]
     private Collection $idVol;
 
     public function __construct()
@@ -107,14 +108,14 @@ class Vol
     }
 
     /**
-     * @return Collection<int, reservation>
+     * @return Collection<int, Reservation>
      */
     public function getIdVol(): Collection
     {
         return $this->idVol;
     }
 
-    public function addIdVol(reservation $idVol): static
+    public function addIdVol(Reservation $idVol): static
     {
         if (!$this->idVol->contains($idVol)) {
             $this->idVol->add($idVol);
@@ -124,7 +125,7 @@ class Vol
         return $this;
     }
 
-    public function removeIdVol(reservation $idVol): static
+    public function removeIdVol(Reservation $idVol): static
     {
         if ($this->idVol->removeElement($idVol)) {
             // set the owning side to null (unless already changed)
