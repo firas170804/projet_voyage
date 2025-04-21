@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CompteEditType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -25,4 +26,5 @@ class CompteEditType extends AbstractType
             'data_class' => Passager::class,
         ]);
     }
+    
 }

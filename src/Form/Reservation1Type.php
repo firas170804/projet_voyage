@@ -3,24 +3,28 @@
 namespace App\Form;
 
 use App\Entity\Passager;
-use App\Entity\Vole;
+use App\Entity\Reservation;
+use App\Entity\Vol;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EditCompteType extends AbstractType
+class Reservation1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
-            ->add('email')
-            ->add('telephone')
-            ->add('reservation')
-            ->add('vole', EntityType::class, [
-                'class' => Vole::class,
+            ->add('createdAt', null, [
+                'widget' => 'single_text',
+            ])
+            ->add('Type')
+            ->add('vol', EntityType::class, [
+                'class' => Vol::class,
+                'choice_label' => 'id',
+            ])
+            ->add('passager', EntityType::class, [
+                'class' => Passager::class,
                 'choice_label' => 'id',
             ])
         ;
@@ -29,7 +33,7 @@ class EditCompteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Passager::class,
+            'data_class' => Reservation::class,
         ]);
     }
 }

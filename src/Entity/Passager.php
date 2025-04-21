@@ -33,6 +33,9 @@ class Passager
     #[ORM\OneToMany(targetEntity: reservation::class, mappedBy: 'passager')]
     private Collection $idPassager;
 
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
     public function __construct()
     {
         $this->idPassager = new ArrayCollection();
@@ -117,6 +120,18 @@ class Passager
                 $idPassager->setPassager(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
 
         return $this;
     }
