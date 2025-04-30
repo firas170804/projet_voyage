@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vol index{% endblock %}
+
+{% block body %}
+    <h1>Vol index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>HeurDepart</th>
+                <th>HeurArrive</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vol in vols %}
+            <tr>
+                <td>{{ vol.id }}</td>
+                <td>{{ vol.date ? vol.date|date('Y-m-d') : '' }}</td>
+                <td>{{ vol.heurDepart ? vol.heurDepart|date('H:i:s') : '' }}</td>
+                <td>{{ vol.heurArrive ? vol.heurArrive|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_vol_show', {'id': vol.id}) }}">show</a>
+                    <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_vol_new') }}">Create new</a>
+{% endblock %}
