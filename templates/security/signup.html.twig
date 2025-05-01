@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - Voyages & Aventures</title>
+    <title>Inscription - Voyages & Aventures</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -49,30 +49,29 @@
         }
 
         .slide:nth-child(1) {
-            background-image: url('https://source.unsplash.com/random/1600x900/?travel,beach');
+            background-image: url('https://source.unsplash.com/random/1600x900/?passport,travel');
         }
 
         .slide:nth-child(2) {
-            background-image: url('https://source.unsplash.com/random/1600x900/?adventure,mountain');
+            background-image: url('https://source.unsplash.com/random/1600x900/?suitcase,adventure');
         }
 
         .slide:nth-child(3) {
-            background-image: url('https://source.unsplash.com/random/1600x900/?vacation,paris');
+            background-image: url('https://source.unsplash.com/random/1600x900/?map,vacation');
         }
 
         /* Conteneur du formulaire */
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.9);
+        .register-container {
+            background-color: rgba(255, 255, 255, 0.92);
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             padding: 40px;
             width: 90%;
-            max-width: 450px;
+            max-width: 500px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transform-style: preserve-3d;
-            perspective: 1000px;
             animation: fadeIn 1s ease-in-out;
+            margin: 20px 0;
         }
 
         @keyframes fadeIn {
@@ -83,7 +82,7 @@
         /* Logo */
         .logo {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .logo img {
@@ -103,10 +102,19 @@
         }
 
         /* Formulaire */
-        .login-form {
+        .register-form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .input-group {
+            flex: 1;
         }
 
         .input-group {
@@ -114,13 +122,16 @@
             animation: fadeInUp 0.5s ease-out;
         }
 
-        .input-group:nth-child(1) { animation-delay: 0.3s; }
-        .input-group:nth-child(2) { animation-delay: 0.5s; }
+        .input-group:nth-child(1) { animation-delay: 0.2s; }
+        .input-group:nth-child(2) { animation-delay: 0.3s; }
+        .input-group:nth-child(3) { animation-delay: 0.4s; }
+        .input-group:nth-child(4) { animation-delay: 0.5s; }
+        .input-group:nth-child(5) { animation-delay: 0.6s; }
 
         .input-group label {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 8px;
             color: #2c3e50;
             font-weight: 600;
@@ -129,16 +140,17 @@
 
         .input-group label i {
             color: #3498db;
+            font-size: 14px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 15px 15px 15px 45px;
+            padding: 14px 14px 14px 40px;
             border: 2px solid #ecf0f1;
             border-radius: 10px;
             font-size: 15px;
             transition: all 0.3s;
-            background-color: #f9f9f9;
+            background-color: rgba(249, 249, 249, 0.8);
         }
 
         .input-group input:focus {
@@ -150,15 +162,16 @@
 
         .input-group i.fas {
             position: absolute;
-            left: 15px;
-            top: 40px;
+            left: 14px;
+            top: 38px;
             color: #7f8c8d;
+            font-size: 15px;
         }
 
         .toggle-password {
             position: absolute;
-            right: 15px;
-            top: 40px;
+            right: 14px;
+            top: 38px;
             cursor: pointer;
             color: #7f8c8d;
             transition: color 0.3s;
@@ -168,36 +181,8 @@
             color: #3498db;
         }
 
-        /* Options */
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            animation: fadeIn 1s;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #7f8c8d;
-            cursor: pointer;
-        }
-
-        .forgot-password {
-            color: #3498db;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-
-        /* Bouton de connexion */
-        .login-btn {
+        /* Bouton d'inscription */
+        .register-btn {
             background: linear-gradient(135deg, #3498db, #2c3e50);
             color: white;
             border: none;
@@ -212,88 +197,23 @@
             justify-content: center;
             gap: 10px;
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            margin-top: 10px;
             animation: pulse 2s infinite;
         }
 
-        .login-btn:hover {
+        .register-btn:hover {
             background: linear-gradient(135deg, #2980b9, #34495e);
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
             animation: none;
         }
 
-        .login-btn:active {
+        .register-btn:active {
             transform: translateY(1px);
         }
 
-        /* Connexion sociale */
-        .social-login {
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 1s;
-        }
-
-        .social-login p {
-            color: #7f8c8d;
-            font-size: 13px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .social-login p::before,
-        .social-login p::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background-color: #ecf0f1;
-        }
-
-        .social-login p::before {
-            left: 0;
-        }
-
-        .social-login p::after {
-            right: 0;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: all 0.3s;
-        }
-
-        .social-icon.google {
-            background-color: #dd4b39;
-        }
-
-        .social-icon.facebook {
-            background-color: #3b5998;
-        }
-
-        .social-icon.twitter {
-            background-color: #1da1f2;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Lien d'inscription */
-        .register-link {
+        /* Lien de connexion */
+        .login-link {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
@@ -301,32 +221,27 @@
             animation: fadeIn 1s;
         }
 
-        .register-link a {
+        .login-link a {
             color: #3498db;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
 
-        .register-link a:hover {
+        .login-link a:hover {
             color: #2980b9;
             text-decoration: underline;
         }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
         /* Responsive */
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 30px 20px;
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 18px;
+            }
+            
+            .register-container {
+                padding: 30px 25px;
                 width: 95%;
             }
             
@@ -336,77 +251,98 @@
             }
             
             .input-group input {
-                padding: 12px 12px 12px 40px;
+                padding: 12px 12px 12px 38px;
+            }
+            
+            .input-group i.fas {
+                top: 36px;
+                left: 12px;
+            }
+            
+            .toggle-password {
+                top: 36px;
+                right: 12px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Slideshow d'arrière-plan -->
     <div class="background-slideshow">
         <div class="slide active"></div>
         <div class="slide"></div>
         <div class="slide"></div>
     </div>
 
-    <div class="login-container">
+    <div class="register-container">
         <div class="logo">
             <img src="https://cdn-icons-png.flaticon.com/512/3212/3212608.png" alt="Logo Voyage">
-            <h1>Explorer le Monde</h1>
+            <h1>Créer un compte</h1>
         </div>
-        
-        <form class="login-form">
+
+        {{ form_start(form, {'attr': {'class': 'register-form'}}) }}
+            <div class="form-row">
+                <div class="input-group">
+                    <label>
+                        <i class="fas fa-user"></i> Nom
+                    </label>
+                    {{ form_widget(form.nom, {'attr': {'placeholder': 'Votre nom'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+                <div class="input-group">
+                    <label>
+                        <i class="fas fa-user-tag"></i> Prénom
+                    </label>
+                    {{ form_widget(form.prenom, {'attr': {'placeholder': 'Votre prénom'}}) }}
+                    {{ form_errors(form.prenom) }}
+                </div>
+            </div>
+
             <div class="input-group">
-                <label for="email">
+                <label>
                     <i class="fas fa-envelope"></i> Email
                 </label>
-                <input type="email" id="email" name="email" placeholder="votre@email.com" required>
-                <i class="fas fa-envelope"></i>
+                {{ form_widget(form.email, {'attr': {'placeholder': 'votre@email.com'}}) }}
+                {{ form_errors(form.email) }}
             </div>
-            
+
             <div class="input-group">
-                <label for="password">
+                <label>
                     <i class="fas fa-lock"></i> Mot de passe
                 </label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
-                <i class="fas fa-lock"></i>
+                {{ form_widget(form.password, {'attr': {'placeholder': '••••••••'}}) }}
+                {{ form_errors(form.password) }}
                 <span class="toggle-password" onclick="togglePassword()">
                     <i class="fas fa-eye"></i>
                 </span>
             </div>
-            
-            <div class="options">
 
-            </div>
-            
-            <button type="submit" class="login-btn">
-                <i class="fas fa-plane"></i> Se connecter
+            <button type="submit" class="register-btn">
+                <i class="fas fa-user-plus"></i> S'inscrire
             </button>
-            
 
-            
-            <div class="register-link">
-                Nouveau chez nous ? <a href="{{path('app_signup')}}">Créer un compte</a>
+            <div class="login-link">
+                Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
             </div>
-        </form>
+        {{ form_end(form) }}
     </div>
-  <script>
-        // Slideshow d'arrière-plan
+
+    <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
-        
+
         function changeSlide() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }
-        
+
         setInterval(changeSlide, 5000);
-        
-        // Basculer la visibilité du mot de passe
+
         function togglePassword() {
-            const password = document.getElementById('password');
+            const password = document.querySelector('input[type="password"]');
             const icon = document.querySelector('.toggle-password i');
-            
+
             if (password.type === 'password') {
                 password.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -418,6 +354,5 @@
             }
         }
     </script>
-    
 </body>
 </html>

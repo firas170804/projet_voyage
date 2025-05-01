@@ -17,6 +17,21 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    #[Route('/passager/dashboard', name: 'passager_dashboard')]
+        public function dashboard1(): Response
+        {
+            return $this->render('passagerHome/index.html.twig');
+    }
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+        public function dashboard2(): Response
+        {
+            return $this->render('adminHome/index.html.twig');
+    }
+    #[Route('/agence/dashboard', name: 'agence_dashboard')]
+        public function dashboard3(): Response
+        {
+            return $this->render('agenceHome/index.html.twig');
+    }
     #[Route('compte/{id}/edit', name: 'app_compte')]
     public function edit(Passager $passager)
     {
