@@ -1,13 +1,132 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Aeroport{% endblock %}
+{% block title %}Modifier un Aéroport{% endblock %}
 
 {% block body %}
-    <h1>Edit Aeroport</h1>
+<style>
+    .page-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+        animation: fadeIn 0.4s ease;
+    }
 
-    {{ include('aeroport/_form.html.twig', {'button_label': 'Update'}) }}
+    h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: #111827;
+    }
 
-    <a href="{{ path('app_aeroport_index') }}">back to list</a>
+    form div {
+        margin-bottom: 15px;
+    }
 
-    {{ include('aeroport/_delete_form.html.twig') }}
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #374151;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 15px;
+        background-color: #f9fafb;
+    }
+
+    .form-wrapper button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 12px;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .form-wrapper button:hover {
+        background-color: #2563eb;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-back {
+        background-color: #e0e7ff;
+        color: #1d4ed8;
+        border: 1px solid #c7d2fe;
+    }
+
+    .btn-back:hover {
+        background-color: #d1d5fe;
+        transform: translateY(-2px);
+    }
+
+    .btn-delete {
+        background-color: #ef4444;
+        color: white;
+        border: none;
+    }
+
+    .btn-delete:hover {
+        background-color: #dc2626;
+        transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="page-container">
+    <h1>✈️ Modifier l’Aéroport</h1>
+
+    <div class="form-wrapper">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button>Mettre à jour</button>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="actions">
+        <a href="{{ path('app_aeroport_index') }}" class="btn btn-back">← Retour à la liste</a>
+
+        <form method="post" action="{{ path('app_aeroport_delete', {'id': aeroport.id}) }}"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet aéroport ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ aeroport.id) }}">
+            <button class="btn btn-delete">🗑️ Supprimer</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -4,47 +4,78 @@
 
 {% block body %}
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
     body {
-        background: #f4f6f9;
-        font-family: 'Segoe UI', sans-serif;
-        padding: 2rem;
-        color: #333;
         margin: 0;
+        padding: 2rem;
+        font-family: 'Quicksand', sans-serif;
+        background: linear-gradient(to bottom, #cbeffd, #ffffff);
+        background-attachment: fixed;
+        color: #333;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background: url('https://www.transparenttextures.com/patterns/clouds.png') repeat;
+        opacity: 0.1;
+        animation: clouds 100s linear infinite;
+        z-index: 0;
+    }
+
+    @keyframes clouds {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
     }
 
     h1 {
         text-align: center;
+        font-size: 2.5rem;
+        color: #004d7a;
         margin-bottom: 2rem;
-        font-size: 2rem;
-        color: #1f2937;
-        font-weight: 600;
+        position: relative;
+        z-index: 1;
+    }
+
+    h1::after {
+        content: " 🛫";
+        font-size: 1.5rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
     }
 
     .form-container {
-        max-width: 600px;
+        max-width: 700px;
         margin: auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        border: 1px solid #e5e7eb;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 2.5rem;
+        border-radius: 1.2rem;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(200, 230, 255, 0.5);
+        position: relative;
+        z-index: 1;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .form-container:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    form div {
-        margin-bottom: 1.5rem;
+        transform: translateY(-4px);
+        box-shadow: 0 25px 40px rgba(0, 0, 0, 0.12);
     }
 
     label {
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         font-weight: 600;
-        color: #374151;
+        color: #005c8a;
     }
 
     input[type="text"],
@@ -52,26 +83,26 @@
     textarea,
     select {
         width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        background: #f9fafb;
+        padding: 0.9rem 1rem;
+        border: 1px solid #bce0f0;
+        border-radius: 0.6rem;
+        background-color: #f7fbfc;
         font-size: 1rem;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        transition: 0.3s ease;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
-        outline: none;
-        border-color: #3b82f6;
+        border-color: #0091d5;
         background-color: white;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        box-shadow: 0 0 0 3px rgba(0, 145, 213, 0.2);
+        outline: none;
     }
 
     textarea {
         resize: vertical;
-        min-height: 150px;
+        min-height: 140px;
     }
 
     .form-buttons {
@@ -79,51 +110,60 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 2rem;
+        flex-wrap: wrap;
     }
 
     .btn {
-        display: inline-block;
-        padding: 0.7rem 1.4rem;
-        border: none;
-        border-radius: 0.5rem;
+        padding: 0.8rem 1.5rem;
         font-size: 1rem;
+        font-weight: 600;
+        border-radius: 0.6rem;
         cursor: pointer;
+        border: none;
         text-decoration: none;
-        transition: background-color 0.3s ease, transform 0.3s ease;
+        transition: all 0.3s ease;
     }
 
     .btn-submit {
-        background-color: #10b981;
+        background: linear-gradient(135deg, #00bcd4, #0097a7);
         color: white;
+        box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
     }
 
     .btn-submit:hover {
-        background-color: #059669;
+        background: linear-gradient(135deg, #0097a7, #006064);
         transform: translateY(-2px);
     }
 
-    .btn-back {
-        background-color: #e5e7eb;
-        color: #374151;
-    }
+.btn-back {
+    background-color: rgb(162, 161, 240) !important;
+    color: #1565c0 !important;
+    border: 1px rgb(162, 161, 240) !important;
+}
 
-    .btn-back:hover {
-        background-color: #d1d5db;
-        transform: translateY(-2px);
-    }
+.btn-back:hover {
+    background-color:rgb(130, 128, 236) !important;
+    transform: translateY(-2px);
+}
+
+
 
     @media (max-width: 768px) {
-        .form-container {
-            padding: 1.5rem;
+        h1 {
+            font-size: 2rem;
         }
 
-        h1 {
-            font-size: 1.5rem;
+        .form-container {
+            padding: 1.8rem;
         }
 
         .btn {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .form-buttons {
+            flex-direction: column;
         }
     }
 </style>
