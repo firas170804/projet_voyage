@@ -1,39 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Aeroport index{% endblock %}
+{% block title %}Liste des Aéroports{% endblock %}
 
 {% block body %}
-    <h1>Aeroport index</h1>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f9fafb;
+        padding: 2rem;
+        color: #1f2937;
+    }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Ville</th>
-                <th>Pays</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for aeroport in aeroports %}
-            <tr>
-                <td>{{ aeroport.id }}</td>
-                <td>{{ aeroport.nom }}</td>
-                <td>{{ aeroport.ville }}</td>
-                <td>{{ aeroport.pays }}</td>
-                <td>
-                    <a href="{{ path('app_aeroport_show', {'id': aeroport.id}) }}">show</a>
-                    <a href="{{ path('app_aeroport_edit', {'id': aeroport.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #111827;
+    }
 
-    <a href="{{ path('app_aeroport_new') }}">Create new</a>
+    .list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .list-item {
+        background-color: #ffffff;
+        padding: 1rem 1.5rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.2s ease;
+    }
+
+    .list-item:hover {
+        background-color: #f1f5f9;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info span {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .info .title {
+        font-weight: bold;
+        color: #1d4ed8;
+    }
+
+    .actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-view {
+        background-color: #3b82f6;
+        color: #fff;
+    }
+
+    .btn-view:hover {
+        background-color: #2563eb;
+    }
+
+    .btn-edit {
+        background-color: #f59e0b;
+        color: #fff;
+    }
+
+    .btn-edit:hover {
+        background-color: #d97706;
+    }
+
+    .btn-create {
+        display: inline-block;
+        margin-top: 2rem;
+        background-color: #10b981;
+        color: #fff;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 0.75rem;
+    }
+
+    .btn-create:hover {
+        background-color: #059669;
+    }
+</style>
+
+<h1>Liste des Aéroports</h1>
+
+<div class="list-container">
+    {% for aeroport in aeroports %}
+        <div class="list-item">
+            <div class="info">
+                <span class="title">{{ aeroport.nom }}</span>
+                <span>{{ aeroport.ville }}, {{ aeroport.pays }}</span>
+            </div>
+            <div class="actions">
+                <a href="{{ path('app_aeroport_show', {'id': aeroport.id}) }}" class="btn btn-view">Voir</a>
+                <a href="{{ path('app_aeroport_edit', {'id': aeroport.id}) }}" class="btn btn-edit">Modifier</a>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun aéroport trouvé.</p>
+    {% endfor %}
+</div>
+
+<a href="{{ path('app_aeroport_new') }}" class="btn-create">Ajouter un aéroport</a>
 {% endblock %}

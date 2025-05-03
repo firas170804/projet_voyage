@@ -1,11 +1,140 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Aeroport{% endblock %}
+{% block title %}Créer un Aéroport{% endblock %}
 
 {% block body %}
-    <h1>Create new Aeroport</h1>
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+        padding: 2rem;
+        color: #333;
+        margin: 0;
+    }
 
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        color: #1f2937;
+        font-weight: 600;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    form div {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        background: #f9fafb;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background-color: white;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.7rem 1.4rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-submit {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .btn-submit:hover {
+        background-color: #059669;
+        transform: translateY(-2px);
+    }
+
+    .btn-back {
+        background-color: #e5e7eb;
+        color: #374151;
+    }
+
+    .btn-back:hover {
+        background-color: #d1d5db;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<h1>Créer un nouvel Aéroport</h1>
+
+<div class="form-container">
     {{ include('aeroport/_form.html.twig') }}
 
-    <a href="{{ path('app_aeroport_index') }}">back to list</a>
+    <div class="form-buttons">
+        <a href="{{ path('app_aeroport_index') }}" class="btn btn-back">← Retour à la liste</a>
+    </div>
+</div>
 {% endblock %}

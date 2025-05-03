@@ -3,45 +3,139 @@
 {% block title %}Détails de l'aéroport{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h2 class="mb-0">Aéroport : {{ aeroport.nom }}</h2>
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th scope="row">ID</th>
-                        <td>{{ aeroport.id }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Nom</th>
-                        <td>{{ aeroport.nom }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Ville</th>
-                        <td>{{ aeroport.ville }}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Pays</th>
-                        <td>{{ aeroport.pays }}</td>
-                    </tr>
-                </tbody>
-            </table>
+<style>
+    body {
+        background: #f5f7fa;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
+        padding: 2rem;
+    }
 
-            <div class="d-flex justify-content-between mt-4">
-                <a href="{{ path('app_aeroport_index') }}" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Retour à la liste
-                </a>
+    .card {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        animation: fadeIn 0.4s ease;
+    }
 
-                <div>
-                    <a href="{{ path('app_aeroport_edit', {'id': aeroport.id}) }}" class="btn btn-warning me-2">
-                        <i class="bi bi-pencil"></i> Modifier
-                    </a>
+    .card-header {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        padding: 1.5rem 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
 
-                    {{ include('aeroport/_delete_form.html.twig') }}
-                </div>
+    .card-body {
+        padding: 2rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+    }
+
+    th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+        width: 30%;
+        background: #f9fafb;
+        font-weight: 500;
+        color: #4b5563;
+    }
+
+    td {
+        color: #1f2937;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 0.65rem 1.2rem;
+        border-radius: 0.6rem;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: background-color 0.2s ease;
+    }
+
+    .btn-secondary {
+        background-color: #e5e7eb;
+        color: #111827;
+    }
+
+    .btn-secondary:hover {
+        background-color: #d1d5db;
+    }
+
+    .btn-warning {
+        background-color: #f59e0b;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #d97706;
+    }
+
+    .btn-delete {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    .btn-delete:hover {
+        background-color: #dc2626;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        Aéroport : {{ aeroport.nom }}
+    </div>
+    <div class="card-body">
+        <table>
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <td>{{ aeroport.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ aeroport.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ aeroport.ville }}</td>
+                </tr>
+                <tr>
+                    <th>Pays</th>
+                    <td>{{ aeroport.pays }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="actions">
+            <a href="{{ path('app_aeroport_index') }}" class="btn btn-secondary">← Retour à la liste</a>
+
+            <div>
+                <a href="{{ path('app_aeroport_edit', {'id': aeroport.id}) }}" class="btn btn-warning">✏️ Modifier</a>
+                {{ include('aeroport/_delete_form.html.twig') }}
             </div>
         </div>
     </div>
