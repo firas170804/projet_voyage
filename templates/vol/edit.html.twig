@@ -3,6 +3,8 @@
 {% block title %}Edit Vol{% endblock %}
 
 {% block body %}
+{% include 'navbar/navbarAgence.html.twig' %}
+
     <h1>Edit Vol</h1>
 
     {{ include('vol/_form.html.twig', {'button_label': 'Update'}) }}

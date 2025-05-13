@@ -1,8 +1,64 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Vol index{% endblock %}
+{% block stylesheets %}
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination .page-item {
+            display: inline-block;
+        }
+
+        .pagination .page-link {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f1f1f1;
+            border-color: #bbb;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .pagination .page-item:first-child .page-link,
+        .pagination .page-item:last-child .page-link {
+            font-size: 18px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .pagination .page-link {
+                padding: 6px 12px;
+            }
+        }
+    </style>
+{% endblock %}
+
 
 {% block body %}
+    {% include 'navbar/navbarAgence.html.twig' %}
+
     <h1>Vol index</h1>
 
     <table class="table">
@@ -10,30 +66,35 @@
             <tr>
                 <th>Id</th>
                 <th>Date</th>
-                <th>HeurDepart</th>
-                <th>HeurArrive</th>
-                <th>actions</th>
+                <th>Heur départ</th>
+                <th>Heur arrivée</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for vol in vols %}
-            <tr>
-                <td>{{ vol.id }}</td>
-                <td>{{ vol.date ? vol.date|date('Y-m-d') : '' }}</td>
-                <td>{{ vol.heurDepart ? vol.heurDepart|date('H:i:s') : '' }}</td>
-                <td>{{ vol.heurArrive ? vol.heurArrive|date('H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_vol_show', {'id': vol.id}) }}">show</a>
-                    <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for vol in pagination %}
+                <tr>
+                    <td>{{ vol.id }}</td>
+                    <td>{{ vol.date | date('Y-m-d') }}</td>
+                    <td>{{ vol.heurDepart | date('H:i') }}</td>
+                    <td>{{ vol.heurArrive | date('H:i') }}</td>
+                    <td>
+                        <a href="{{ path('app_vol_show', {'id': vol.id}) }}">Voir</a>
+                        <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun vol trouvé.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_vol_new') }}">Create new</a>
+    {# Affichage automatique de la pagination #}
+    <div class="pagination mt-3">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <a href="{{ path('app_vol_new') }}" class="btn btn-primary mt-3">Créer un nouveau vol</a>
 {% endblock %}

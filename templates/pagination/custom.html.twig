@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination Personnalisée</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .custom-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .custom-pagination a,
+        .custom-pagination span.dot {
+            display: inline-block;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .custom-pagination a:hover,
+        .custom-pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .custom-pagination .dot {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+        }
+
+        .custom-pagination .active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .custom-pagination a:hover {
+            background-color: #f1f1f1;
+            border-color: #bbb;
+        }
+
+        .custom-pagination a:first-child,
+        .custom-pagination a:last-child {
+            font-size: 18px;
+        }
+
+        .custom-pagination a,
+        .custom-pagination span.dot {
+            cursor: pointer;
+        }
+
+        /* Pagination arrows */
+        .custom-pagination a:focus,
+        .custom-pagination a:hover {
+            outline: none;
+        }
+
+        .custom-pagination a:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+{% block pagination %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {# Page précédente #}
+            {% if previous %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({(pagination.parameterName): previous})) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&laquo;</span>
+                </li>
+            {% endif %}
+
+            {# Pages numérotées #}
+            {% set start = current - 1 %}
+            {% set end = current + 1 %}
+            {% if start < 1 %}
+                {% set end = end + (1 - start) %}
+                {% set start = 1 %}
+            {% endif %}
+            {% if end > pageCount %}
+                {% set start = start - (end - pageCount) %}
+                {% set end = pageCount %}
+            {% endif %}
+            {% if start < 1 %}
+                {% set start = 1 %}
+            {% endif %}
+
+            {% for i in start..end %}
+                <li class="page-item {% if i == current %}active{% endif %}">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({(pagination.parameterName): i})) }}">
+                        {{ i }}
+                    </a>
+                </li>
+            {% endfor %}
+
+            {# Page suivante #}
+            {% if next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({(pagination.parameterName): next})) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&raquo;</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

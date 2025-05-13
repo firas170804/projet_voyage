@@ -3,6 +3,8 @@
 {% block title %}New Vol{% endblock %}
 
 {% block body %}
+{% include 'navbar/navbarAgence.html.twig' %}
+
     <h1>Create new Vol</h1>
 
     {{ include('vol/_form.html.twig') }}

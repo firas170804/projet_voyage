@@ -10,18 +10,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/vol')]
 final class VolController extends AbstractController
 {
     #[Route(name: 'app_vol_index', methods: ['GET'])]
-    public function index(VolRepository $volRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator, VolRepository $volRepository): Response
     {
+        $query = $volRepository->createQueryBuilder('v')->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1), // page actuelle
+            3 // nombre d'éléments par page
+        );
+    
         return $this->render('vol/index.html.twig', [
-            'vols' => $volRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
+    
+    // Autres actions (new, edit, delete, show)
 
+    
     #[Route('/new', name: 'app_vol_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -78,4 +90,6 @@ final class VolController extends AbstractController
 
         return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }
