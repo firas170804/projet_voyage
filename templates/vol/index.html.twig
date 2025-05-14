@@ -472,6 +472,7 @@
                             <td>{{ vol.heurArrive | date('H:i') }}</td>
                             <td class="action-links">
                                 <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">Modifier</a>
+                                <a href="{{ path('app_reservation_new', {'id': vol.id}) }}">Réserver ce vol</a>
                             </td>
                         </tr>
                     {% else %}
