@@ -1,35 +1,410 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Avion index{% endblock %}
+{% block title %}Airplane List{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --dark-color: #2d3748;
+            --light-color: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--dark-color);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Search bar styles */
+        .search-container {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-form {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #3367d6;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Table container with 3D effect */
+        .table-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .table-container:hover {
+            transform: perspective(1000px) rotateX(2deg) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        .table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .table th::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: rgba(240, 248, 255, 0.5);
+        }
+
+        .table tr:hover {
+            background-color: rgba(66, 133, 244, 0.1);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        /* Action links with icons */
+        .action-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-right: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .action-links a:first-child::before {
+            content: "\f06e";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 5px;
+        }
+
+        .action-links a:last-child::before {
+            content: "\f044";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 5px;
+        }
+
+        .action-links a:hover {
+            background-color: rgba(66, 133, 244, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Create button with icon */
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(52, 168, 83, 0.4);
+        }
+
+        .btn-primary::before {
+            content: "\f072";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #2d9144;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(52, 168, 83, 0.6);
+        }
+
+        /* Travel icons animation */
+        .travel-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .travel-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .travel-icon:nth-child(1) { animation-delay: 0.1s; }
+        .travel-icon:nth-child(2) { animation-delay: 0.3s; }
+        .travel-icon:nth-child(3) { animation-delay: 0.5s; }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .table th, .table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .travel-icons {
+                gap: 20px;
+            }
+            
+            .travel-icon {
+                font-size: 2rem;
+            }
+            
+            .search-input {
+                padding: 10px 15px 10px 40px;
+                font-size: 14px;
+            }
+            
+            .search-icon {
+                left: 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let matches = false;
+                    
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                            matches = true;
+                        }
+                    });
+                    
+                    if (matches) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block body %}
-    <h1>Avion index</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {% else %}
+        {% include 'navbar/navbarHome.html.twig' %}
+    {% endif %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Capacite</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for avion in avions %}
-            <tr>
-                <td>{{ avion.id }}</td>
-                <td>{{ avion.capacite }}</td>
-                <td>
-                    <a href="{{ path('app_avion_show', {'id': avion.id}) }}">show</a>
-                    <a href="{{ path('app_avion_edit', {'id': avion.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="travel-icons">
+            <i class="fas fa-plane travel-icon"></i>
+            <i class="fas fa-suitcase travel-icon"></i>
+            <i class="fas fa-globe-americas travel-icon"></i>
+        </div>
 
-    <a href="{{ path('app_avion_new') }}">Create new</a>
+        <h1>Airplane Fleet</h1>
+
+        <!-- Search bar -->
+        <div class="search-container">
+            <form class="search-form">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search by ID or capacity...">
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-id-card"></i> ID</th>
+                        <th><i class="fas fa-users"></i> Capacity</th>
+                        <th><i class="fas fa-cogs"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for avion in avions %}
+                        <tr>
+                            <td>{{ avion.id }}</td>
+                            <td>{{ avion.capacite }}</td>
+                            <td class="action-links">
+
+                                <a href="{{ path('app_avion_edit', {'id': avion.id}) }}">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" style="text-align: center;">No airplanes found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{{ path('app_avion_new') }}" class="btn-primary">
+            <i class="fas fa-plus-circle"></i> Add New Airplane
+        </a>
+    </div>
 {% endblock %}

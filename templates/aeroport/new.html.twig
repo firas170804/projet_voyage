@@ -167,7 +167,13 @@
         }
     }
 </style>
-
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {% endif %}
 <h1>Créer un nouvel Aéroport</h1>
 
 <div class="form-container">
