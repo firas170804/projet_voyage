@@ -1,5 +1,126 @@
+{% extends 'base.html.twig' %}
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% block stylesheets %}
+<style>
+    /* Style général du formulaire */
+    .custom-form {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Style des groupes de formulaire */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Style des labels */
+    .custom-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    /* Style des champs de formulaire */
+    .custom-form input[type="text"],
+    .custom-form input[type="email"],
+    .custom-form input[type="password"],
+    .custom-form input[type="number"],
+    .custom-form input[type="date"],
+    .custom-form textarea,
+    .custom-form select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-form input[type="text"]:focus,
+    .custom-form input[type="email"]:focus,
+    .custom-form input[type="password"]:focus,
+    .custom-form input[type="number"]:focus,
+    .custom-form input[type="date"]:focus,
+    .custom-form textarea:focus,
+    .custom-form select:focus {
+        border-color: #4299e1;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    }
+
+    /* Style spécifique pour les textarea */
+    .custom-form textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    /* Style des messages d'erreur */
+    .invalid-feedback {
+        color: #e53e3e;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Style du bouton */
+    .form-btn {
+        background-color: #4299e1;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .form-btn:hover {
+        background-color: #3182ce;
+    }
+
+    /* Style pour les cases à cocher et boutons radio */
+    .custom-form input[type="checkbox"],
+    .custom-form input[type="radio"] {
+        margin-right: 0.5rem;
+    }
+
+    /* Style responsive */
+    @media (max-width: 640px) {
+        .custom-form {
+            padding: 1rem;
+            margin: 1rem;
+        }
+    }
+
+    /* Style pour les sélecteurs de fichiers */
+    .custom-form input[type="file"] {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px dashed #cbd5e0;
+        border-radius: 6px;
+    }
+
+    /* Style pour les formulaires avec des champs requis */
+    .required:after {
+        content: " *";
+        color: #e53e3e;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="custom-form">
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="form-btn">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -129,8 +129,16 @@
         margin-top: 2rem;
     }
 </style>
-{% include 'navbar/navbarAgence.html.twig' %}
 
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {%else %}
+        {% include 'navbar/navbarHome.html.twig' %}
+    {% endif %}
 
 <h1>Liste des Aéroports</h1>
 

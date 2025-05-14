@@ -122,55 +122,137 @@
             60% {transform: translateY(-5px);}
         }
 
+        /* Styles améliorés pour les champs de formulaire */
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             position: relative;
             transform-style: preserve-3d;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .form-group:hover {
-            transform: translateY(-3px) translateZ(5px);
+            transform: translateY(-5px) translateZ(10px);
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 10px;
+            font-weight: 600;
             color: var(--primary-color);
-            padding-left: 5px;
+            padding-left: 10px;
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .form-group:hover label {
+            transform: translateY(-3px);
+            color: var(--secondary-color);
         }
 
         .form-group label::before {
             content: "\f5aa";
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
-            margin-right: 10px;
+            margin-right: 12px;
             color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .form-group:hover label::before {
+            transform: scale(1.2);
+            color: var(--secondary-color);
+        }
+
+        .input-container {
+            position: relative;
+            perspective: 1000px;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 20px;
+            padding: 16px 20px 16px 50px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 16px;
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
         }
 
         .form-control:focus {
             border-color: var(--accent-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(251, 188, 5, 0.3);
+            box-shadow: 0 0 0 3px rgba(251, 188, 5, 0.3),
+                        0 8px 25px rgba(66, 133, 244, 0.2);
+            transform: translateY(-2px) translateZ(5px);
         }
 
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--accent-color);
+            transform: translateY(-50%) scale(1.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateY(-50%) scale(1.2); }
+            50% { transform: translateY(-50%) scale(1.3); }
+            100% { transform: translateY(-50%) scale(1.2); }
+        }
+
+        .input-highlight {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 0 0 12px 12px;
+            transition: width 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .form-control:focus ~ .input-highlight {
+            width: 100%;
+            opacity: 1;
+        }
+
+        /* Styles spécifiques pour les différents types de champs */
+        .form-group[data-type="date"] label::before {
+            content: "\f073";
+        }
+
+        .form-group[data-type="time"] label::before {
+            content: "\f017";
+        }
+
+        .form-group[data-type="text"] label::before {
+            content: "\f304";
+        }
+
+        .form-group[data-type="number"] label::before {
+            content: "\f162";
+        }
+
+        /* Styles pour les boutons */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 28px;
+            padding: 14px 30px;
             font-size: 16px;
             border-radius: 12px;
             cursor: pointer;
@@ -178,16 +260,21 @@
             font-weight: 600;
             text-decoration: none;
             border: none;
-            margin-right: 12px;
+            margin-right: 15px;
             transform-style: preserve-3d;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
         .btn i {
-            margin-right: 8px;
+            margin-right: 10px;
             font-size: 1.1em;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: translateX(5px);
         }
 
         .btn::after {
@@ -213,8 +300,8 @@
 
         .btn-primary:hover {
             background-color: #3367d6;
-            transform: translateY(-3px) translateZ(5px);
-            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+            transform: translateY(-5px) translateZ(10px);
+            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.4);
         }
 
         .btn-secondary {
@@ -224,8 +311,8 @@
 
         .btn-secondary:hover {
             background-color: #2d9144;
-            transform: translateY(-3px) translateZ(5px);
-            box-shadow: 0 8px 25px rgba(52, 168, 83, 0.4);
+            transform: translateY(-5px) translateZ(10px);
+            box-shadow: 0 10px 30px rgba(52, 168, 83, 0.4);
         }
 
         .btn-outline {
@@ -237,7 +324,7 @@
         .btn-outline:hover {
             background-color: var(--primary-color);
             color: white;
-            transform: translateY(-3px) translateZ(5px);
+            transform: translateY(-5px) translateZ(10px);
         }
 
         .action-buttons {
@@ -245,7 +332,7 @@
             justify-content: center;
             margin-top: 40px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
 
         .travel-icons {
@@ -256,10 +343,11 @@
         }
 
         .travel-icon {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--accent-color);
             animation: float 4s ease-in-out infinite;
             transform-style: preserve-3d;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         @keyframes float {
@@ -267,8 +355,9 @@
                 transform: translateY(0) rotateY(0) scale(1);
             }
             50% { 
-                transform: translateY(-15px) rotateY(20deg) scale(1.1);
+                transform: translateY(-20px) rotateY(20deg) scale(1.15);
                 color: var(--secondary-color);
+                text-shadow: 0 10px 20px rgba(52, 168, 83, 0.3);
             }
         }
 
@@ -291,6 +380,7 @@
             
             .action-buttons {
                 flex-direction: column;
+                gap: 15px;
             }
             
             .btn {
@@ -304,14 +394,22 @@
             }
             
             .travel-icon {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .form-control {
+                padding-left: 45px;
+            }
+            
+            .input-icon {
+                left: 15px;
+                font-size: 16px;
             }
         }
     </style>
 {% endblock %}
 
 {% block body %}
-
     {% if is_granted('ROLE_ADMIN') %}
         {% include 'navbar/navbarAdmin.html.twig' %}
     {% elseif is_granted('ROLE_AGENCE') %}

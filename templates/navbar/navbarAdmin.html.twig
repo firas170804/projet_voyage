@@ -1,11 +1,35 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm py-3" data-navbar-on-scroll="data-navbar-on-scroll">
   <div class="container">
     <!-- Logo et marque -->
-    <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
-      <img class="d-inline-block" src="{{ asset('deseign1/img/gallery/logo.png') }}" width="50" alt="logo" />
-      <span class="fw-bold text-primary ms-2">voyage</span>
-    </a>
-
+            {% if is_granted('ROLE_ADMIN') %}
+        <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
+            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
+            <span class="fw-bold text-primary ms-2">
+              voyage
+            </span>
+          </a>
+    {% elseif is_granted('ROLE_AGENCE') %}
+        <a class="navbar-brand" href="{{ path('agence_dashboard') }}">
+            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
+            <span class="fw-bold text-primary ms-2">
+              voyage
+            </span>
+          </a>
+    {% elseif is_granted('ROLE_PASSAGER') %}
+       <a class="navbar-brand" href="{{ path('passager_dashboard') }}">
+            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
+            <span class="fw-bold text-primary ms-2">
+              voyage
+            </span>
+          </a>
+    {%else %}
+        <a class="navbar-brand" href="{{ path('/home') }}">
+            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
+            <span class="fw-bold text-primary ms-2">
+              voyage
+            </span>
+          </a>
+    {% endif %}
     <!-- Bouton toggle mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>

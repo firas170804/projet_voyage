@@ -427,7 +427,10 @@
         {% include 'navbar/navbarAgence.html.twig' %}
     {% elseif is_granted('ROLE_PASSAGER') %}
         {% include 'navbar/navbarPassager.html.twig' %}
+    {%else %}
+        {% include 'navbar/navbarHome.html.twig' %}
     {% endif %}
+
 
     <div class="container">
         <div class="travel-icons">
