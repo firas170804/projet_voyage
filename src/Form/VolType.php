@@ -27,7 +27,7 @@ class VolType extends AbstractType
             ])
             ->add('compagnie', EntityType::class, [
                 'class' => Compagnie::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('avion', EntityType::class, [
                 'class' => Avion::class,
@@ -35,7 +35,7 @@ class VolType extends AbstractType
             ])
             ->add('aeroport', EntityType::class, [
                 'class' => Aeroport::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
         ;
     }

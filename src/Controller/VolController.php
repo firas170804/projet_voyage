@@ -35,24 +35,36 @@ final class VolController extends AbstractController
 
     
     #[Route('/new', name: 'app_vol_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $vol = new Vol();
-        $form = $this->createForm(VolType::class, $vol);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    // Crée une nouvelle instance de Vol
+    $vol = new Vol();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($vol);
-            $entityManager->flush();
+    // Crée le formulaire à partir de VolType
+    $form = $this->createForm(VolType::class, $vol);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
-        }
+    // Vérifie si le formulaire a été soumis et est valide
+    if ($form->isSubmitted() && $form->isValid()) {
 
-        return $this->render('vol/new.html.twig', [
-            'vol' => $vol,
-            'form' => $form,
-        ]);
+        // À ce stade, Symfony a déjà associé les objets Compagnie, Avion et Aéroport à $vol
+        // Tu peux les afficher pour debug si tu veux :
+        // dd($vol->getCompagnie(), $vol->getAeroport(), $vol->getAvion());
+
+        // Enregistre dans la base
+        $entityManager->persist($vol);
+        $entityManager->flush();
+
+        // Redirection après succès
+        return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Affiche le formulaire dans le template Twig
+    return $this->render('vol/new.html.twig', [
+        'vol' => $vol,
+        'form' => $form->createView(), // Important : createView() ici
+    ]);
+}
 
     #[Route('/{id}', name: 'app_vol_show', methods: ['GET'])]
     public function show(Vol $vol): Response
@@ -63,22 +75,28 @@ final class VolController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_vol_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(VolType::class, $vol);
-        $form->handleRequest($request);
+public function edit(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response
+{
+    // Crée le formulaire en liant l'objet existant $vol
+    $form = $this->createForm(VolType::class, $vol);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    // Si le formulaire est soumis et valide
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Pas besoin de persist() car $vol est déjà géré par Doctrine
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('vol/edit.html.twig', [
-            'vol' => $vol,
-            'form' => $form,
-        ]);
+        // Redirection vers la liste des vols
+        return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Affiche le formulaire avec les valeurs pré-remplies
+    return $this->render('vol/edit.html.twig', [
+        'vol' => $vol,
+        'form' => $form->createView(), // Toujours createView() pour passer au template
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_vol_delete', methods: ['POST'])]
     public function delete(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response

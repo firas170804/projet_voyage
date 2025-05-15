@@ -23,24 +23,32 @@ final class AvionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_avion_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $avion = new Avion();
-        $form = $this->createForm(AvionType::class, $avion);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    // Crée une nouvelle instance d'Avion
+    $avion = new Avion();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($avion);
-            $entityManager->flush();
+    // Crée le formulaire lié à l'entité Avion
+    $form = $this->createForm(AvionType::class, $avion);
+    $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
-        }
+    // Si le formulaire est soumis et valide
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Symfony a automatiquement associé la Compagnie à partir du nom sélectionné
+        $entityManager->persist($avion);
+        $entityManager->flush();
 
-        return $this->render('avion/new.html.twig', [
-            'avion' => $avion,
-            'form' => $form,
-        ]);
+        // Redirection après succès
+        return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Affiche le formulaire
+    return $this->render('avion/new.html.twig', [
+        'avion' => $avion,
+        'form' => $form->createView(),
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_avion_show', methods: ['GET'])]
     public function show(Avion $avion): Response
@@ -51,22 +59,28 @@ final class AvionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_avion_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Avion $avion, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(AvionType::class, $avion);
-        $form->handleRequest($request);
+public function edit(Request $request, Avion $avion, EntityManagerInterface $entityManager): Response
+{
+    // Crée le formulaire avec l'objet Avion existant
+    $form = $this->createForm(AvionType::class, $avion);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+    // Vérifie si le formulaire est soumis et valide
+    if ($form->isSubmitted() && $form->isValid()) {
+        // L'objet $avion est déjà géré par Doctrine, pas besoin de persist()
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('avion/edit.html.twig', [
-            'avion' => $avion,
-            'form' => $form,
-        ]);
+        // Redirection après mise à jour
+        return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // Affiche le formulaire avec les données pré-remplies
+    return $this->render('avion/edit.html.twig', [
+        'avion' => $avion,
+        'form' => $form->createView(), // Ne pas oublier createView()
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_avion_delete', methods: ['POST'])]
     public function delete(Request $request, Avion $avion, EntityManagerInterface $entityManager): Response
