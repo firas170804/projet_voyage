@@ -419,9 +419,7 @@
                                 <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="action-link edit-link" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="action-link delete-link" title="Supprimer">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                
                             </div>
                             {% endif %}
                         </td>
@@ -435,10 +433,6 @@
             </table>
         </div>
 
-        {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_user_new') }}" class="create-btn">
-            <i class="fas fa-plus"></i> Créer un nouvel utilisateur
-        </a>
-        {% endif %}
+        
     </div>
 {% endblock %}
