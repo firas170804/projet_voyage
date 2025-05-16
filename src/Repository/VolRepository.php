@@ -15,6 +15,22 @@ class VolRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Vol::class);
     }
+    public function countVols(): int
+{
+    return (int) $this->createQueryBuilder('v')
+        ->select('COUNT(v.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+public function findLatestVols(int $limit = 5): array
+{
+    return $this->createQueryBuilder('v')
+       ->orderBy('v.date', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
+
 
     //    /**
     //     * @return Vol[] Returns an array of Vol objects
