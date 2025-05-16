@@ -72,7 +72,7 @@ class Vol
     public function setHeurDepart(\DateTimeInterface $heurDepart): static
     {
         $this->heurDepart = $heurDepart;
-
+ 
         return $this;
     }
 
