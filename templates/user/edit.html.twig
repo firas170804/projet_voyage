@@ -1,12 +1,248 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Modifier {{ user.nom }} {{ user.prenom }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--dark-color);
+            min-height: 100vh;
+            perspective: 1000px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1) 0%, rgba(0, 180, 216, 0.08) 50%, rgba(255, 190, 11, 0.1) 100%);
+            z-index: -1;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --glow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+
+        .edit-user-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .edit-user-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: var(--glow);
+        }
+
+        .edit-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1.5rem;
+            transform-style: preserve-3d;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2), var(--glow);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            transform: translateZ(30px);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1) rotateY(15deg) translateZ(40px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 25px rgba(67, 97, 238, 0.6);
+        }
+
+        .edit-title {
+            font-size: 2rem;
+            color: var(--dark);
+            margin: 0;
+            position: relative;
+            transform: translateZ(20px);
+        }
+
+        .edit-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(247, 37, 133, 0.5);
+        }
+
+        .form-card {
+            background: rgba(248, 249, 250, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            transform: translateZ(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px) translateZ(20px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Nouvelle animation 3D */
+        @keyframes holographic {
+            0%, 100% { box-shadow: 0 0 15px rgba(67, 97, 238, 0.5); }
+            25% { box-shadow: 0 0 20px rgba(67, 97, 238, 0.6), 0 0 30px rgba(247, 37, 133, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(67, 97, 238, 0.7), 0 0 40px rgba(247, 37, 133, 0.3); }
+            75% { box-shadow: 0 0 20px rgba(67, 97, 238, 0.6), 0 0 30px rgba(247, 37, 133, 0.4); }
+        }
+
+        .holographic-effect {
+            animation: holographic 6s ease infinite;
+            position: relative;
+        }
+
+        .holographic-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                          rgba(67, 97, 238, 0.05) 0%, 
+                          rgba(247, 37, 133, 0.03) 50%, 
+                          rgba(67, 97, 238, 0.05) 100%);
+            pointer-events: none;
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        /* Reste du CSS inchangé... */
+    </style>
+{% endblock %}
 
 {% block body %}
-    <h1>Edit {{ user.nom }} {{ user.prenom }}</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {% else %}
+        {% include 'navbar/navbarHome.html.twig' %}
+    {% endif %}
+    
+    <div class="edit-user-container holographic-effect">
+        <div class="edit-header">
+            <div class="user-avatar">
+                {{ user.nom|first|upper }}{{ user.prenom|first|upper }}
+            </div>
+            <h1 class="edit-title">
+                <i class="fas fa-user-edit"></i> Modifier {{ user.nom }} {{ user.prenom }}
+            </h1>
+        </div>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="form-card">
+            {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+        <div class="btn-group">
+            <a href="{{ path('app_user_index') }}" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.edit-user-container');
+            const avatar = document.querySelector('.user-avatar');
+            
+            // Effet 3D avancé avec parallaxe
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                container.style.transform = `
+                    rotateX(${(y - 0.5) * 10}deg) 
+                    rotateY(${(x - 0.5) * -10}deg)
+                    translateZ(20px)
+                `;
+                
+                avatar.style.transform = `
+                    rotateX(${(y - 0.5) * -5}deg) 
+                    rotateY(${(x - 0.5) * 10}deg)
+                    translateZ(40px)
+                    scale(1.05)
+                `;
+            });
+            
+            // Réinitialiser quand la souris quitte
+            container.addEventListener('mouseleave', () => {
+                container.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+                avatar.style.transform = 'translateZ(30px)';
+            });
+            
+            // Effet de lumière dynamique
+            const updateLight = () => {
+                const time = Date.now() * 0.001;
+                const glow = `
+                    0 0 ${15 + Math.sin(time) * 5}px 
+                    rgba(67, 97, 238, ${0.5 + Math.sin(time * 0.5) * 0.1})
+                `;
+                container.style.setProperty('--glow', glow);
+                requestAnimationFrame(updateLight);
+            };
+            updateLight();
+        });
+    </script>
 {% endblock %}
