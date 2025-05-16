@@ -17,7 +17,7 @@ class AvionType extends AbstractType
             ->add('capacite')
             ->add('compagnie', EntityType::class, [
                 'class' => Compagnie::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
         ;
     }
