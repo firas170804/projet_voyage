@@ -6,29 +6,32 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
 
-    body {
-        margin: 0;
-        padding: 2rem;
-        font-family: 'Quicksand', sans-serif;
-        background: linear-gradient(to bottom, #cbeffd, #ffffff);
-        background-attachment: fixed;
-        color: #333;
-        position: relative;
-        overflow-x: hidden;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('https://images.unsplash.com/photo-1556388158-158ea5ccacbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
 
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 200%;
-        height: 100%;
-        background: url('https://www.transparenttextures.com/patterns/clouds.png') repeat;
-        opacity: 0.1;
-        animation: clouds 100s linear infinite;
-        z-index: 0;
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1) 0%, rgba(0, 180, 216, 0.08) 50%, rgba(255, 190, 11, 0.1) 100%);
+            z-index: -1;
+        }
 
     @keyframes clouds {
         from { transform: translateX(0); }
@@ -174,7 +177,7 @@
     {% elseif is_granted('ROLE_PASSAGER') %}
         {% include 'navbar/navbarPassager.html.twig' %}
     {% endif %}
-<h1>Créer un nouvel Aéroport</h1>
+
 
 <div class="form-container">
     {{ include('aeroport/_form.html.twig') }}

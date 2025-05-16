@@ -390,13 +390,13 @@
                             <td class="action-links">
 
                                 <a href="{{ path('app_avion_edit', {'id': avion.id}) }}">
-                                    Edit
+                                    Modifier
                                 </a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="3" style="text-align: center;">No airplanes found</td>
+                            <td colspan="3" style="text-align: center;">Aucun avion trouvé</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -404,7 +404,7 @@
         </div>
 
         <a href="{{ path('app_avion_new') }}" class="btn-primary">
-            <i class="fas fa-plus-circle"></i> Add New Airplane
+            <i class="fas fa-plus-circle"></i> Ajouter un nouvel avion
         </a>
     </div>
 {% endblock %}

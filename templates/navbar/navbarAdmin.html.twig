@@ -3,28 +3,24 @@
     <!-- Logo et marque -->
             {% if is_granted('ROLE_ADMIN') %}
         <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
-              voyage
+              Dashboard
             </span>
           </a>
     {% elseif is_granted('ROLE_AGENCE') %}
         <a class="navbar-brand" href="{{ path('agence_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
           </a>
     {% elseif is_granted('ROLE_PASSAGER') %}
        <a class="navbar-brand" href="{{ path('passager_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
           </a>
     {%else %}
         <a class="navbar-brand" href="{{ path('/home') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
@@ -42,7 +38,7 @@
         <li class="nav-item px-2">
           <a class="nav-link" href="{{ path('app_vol_index') }}">
             <i class="fas fa-plane me-2"></i>
-            <span>Flights</span>
+            <span>Vols</span>
           </a>
         </li>
         <li class="nav-item px-2">
@@ -60,7 +56,7 @@
         <li class="nav-item px-2">
           <a class="nav-link" href="{{ path('app_reservation_index') }}">
             <i class="fas fa-ticket-alt me-2"></i>
-            <span>Reservation</span>
+            <span>Reservations</span>
           </a>
         </li>
       </ul>
@@ -68,15 +64,15 @@
       <!-- Menu utilisateur à droite -->
       <ul class="navbar-nav ms-auto">
         <li class="nav-item px-2">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ path('app_user_show') }}">
             <i class="fas fa-user-circle me-2"></i>
-            <span>Account</span>
+            <span>Mon compte</span>
           </a>
         </li>
         <li class="nav-item px-2">
           <a class="nav-link text-danger" href="{{ path('app_logout') }}">
             <i class="fas fa-sign-out-alt me-2"></i>
-            <span>Logout</span>
+            <span>Se déconnecter</span>
           </a>
         </li>
       </ul>

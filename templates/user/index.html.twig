@@ -1,0 +1,444 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #1a1a2e;
+            --success-color: #4cc9f0;
+            --warning-color: #ffbe0b;
+            --danger-color: #ff4d6d;
+            --gray-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--dark-color);
+            min-height: 100vh;
+            perspective: 1000px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1) 0%, rgba(0, 180, 216, 0.08) 50%, rgba(255, 190, 11, 0.1) 100%);
+            z-index: -1;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(8px);
+            transform-style: preserve-3d;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1::before {
+            content: "\f0c0";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 15px;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(67, 97, 238, 0.2);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding-left: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 18px 15px;
+            font-weight: 600;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+        }
+
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            vertical-align: middle;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-primary {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+        }
+
+        .badge-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success-color);
+        }
+
+        .badge-warning {
+            background-color: rgba(255, 190, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .badge-danger {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger-color);
+        }
+
+        .action-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .action-link:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .edit-link {
+            background-color: var(--primary-color);
+        }
+
+        .delete-link {
+            background-color: var(--danger-color);
+        }
+
+        .create-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            margin-top: 20px;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .create-btn i {
+            margin-right: 10px;
+        }
+
+        .no-records {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray-color);
+            font-style: italic;
+        }
+
+        /* Message aucun résultat */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: var(--danger-color);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .admin-container {
+                padding: 30px 20px;
+                margin: 20px;
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .table thead {
+                display: none;
+            }
+            
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .table tr {
+                margin-bottom: 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            }
+            
+            .table td {
+                padding: 12px 15px;
+                text-align: right;
+                position: relative;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            
+            .action-links {
+                justify-content: flex-end;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            const noResultsMessage = document.createElement('tr');
+            noResultsMessage.className = 'no-results';
+            noResultsMessage.innerHTML = '<td colspan="6">Aucun résultat trouvé</td>';
+            
+            // Fonction de recherche
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                let hasResults = false;
+                
+                tableRows.forEach(row => {
+                    const rowText = row.textContent.toLowerCase();
+                    if (rowText.includes(searchTerm)) {
+                        row.style.display = '';
+                        hasResults = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Gérer le message "Aucun résultat"
+                const existingNoResults = document.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+                
+                if (!hasResults) {
+                    document.querySelector('.table tbody').appendChild(noResultsMessage);
+                    noResultsMessage.style.display = '';
+                }
+            }
+            
+            // Écouteur d'événement pour la recherche en temps réel
+            searchInput.addEventListener('input', performSearch);
+            
+            // Focus sur la barre de recherche au chargement
+            searchInput.focus();
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {% else %}
+        {% include 'navbar/navbarHome.html.twig' %}
+    {% endif %}
+
+    <div class="admin-container">
+        <h1>Gestion des Utilisateurs</h1>
+        
+        <!-- Barre de recherche -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Rechercher un utilisateur...">
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Rôles</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td data-label="ID">{{ user.id }}</td>
+                        <td data-label="Email">{{ user.email }}</td>
+                        <td data-label="Rôles">
+                            {% for role in user.roles %}
+                                <span class="badge 
+                                    {% if role == 'ROLE_ADMIN' %}badge-primary
+                                    {% elseif role == 'ROLE_AGENCE' %}badge-success
+                                    {% elseif role == 'ROLE_PASSAGER' %}badge-warning
+                                    {% else %}badge-danger
+                                    {% endif %}">
+                                    {{ role|replace({'ROLE_': ''}) }}
+                                </span>
+                            {% endfor %}
+                        </td>
+                        <td data-label="Nom">{{ user.nom }}</td>
+                        <td data-label="Prénom">{{ user.prenom }}</td>
+                        <td data-label="Actions">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="action-links">
+                                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="action-link edit-link" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ path('app_user_delete', {'id': user.id}) }}" class="action-link delete-link" title="Supprimer">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="no-records">Aucun utilisateur trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_user_new') }}" class="create-btn">
+            <i class="fas fa-plus"></i> Créer un nouvel utilisateur
+        </a>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -30,6 +30,7 @@ final class HomeController extends AbstractController
     #[Route('/agence/dashboard', name: 'agence_dashboard')]
         public function dashboard3(): Response
         {
+            
             return $this->render('agenceHome/index.html.twig');
     }
     #[Route('compte/{id}/edit', name: 'app_compte')]

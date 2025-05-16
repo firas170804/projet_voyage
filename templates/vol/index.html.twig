@@ -471,7 +471,10 @@
                             <td>{{ vol.heurDepart | date('H:i') }}</td>
                             <td>{{ vol.heurArrive | date('H:i') }}</td>
                             <td class="action-links">
-                                <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">Modifier</a>
+                                   {% if is_granted('ROLE_AGENCE') %}
+                                    <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">Modifier</a>
+                                    {% endif %}
+                                
                                 <a href="{{ path('app_reservation_new', {'id': vol.id}) }}">Réserver ce vol</a>
                             </td>
                         </tr>
@@ -487,7 +490,10 @@
         <div class="pagination">
             {{ knp_pagination_render(pagination) }}
         </div>
-
-        <a href="{{ path('app_vol_new') }}" class="btn-primary">Créer un nouveau vol</a>
+       {% if is_granted('ROLE_AGENCE') %}
+       <a href="{{ path('app_vol_new') }}" class="btn-primary">Créer un nouveau vol</a>
+   
+    {% endif %}
+        
     </div>
 {% endblock %}

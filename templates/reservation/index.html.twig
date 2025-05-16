@@ -2,39 +2,461 @@
 
 {% block title %}Reservation index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #1a1a2e;
+            --success-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1474&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--dark-color);
+            min-height: 100vh;
+            perspective: 1000px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.88);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(8px);
+            transform-style: preserve-3d;
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.08) 50%, rgba(247, 37, 133, 0.1) 100%);
+            z-index: -1;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1::before {
+            content: "\f073";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 15px;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            animation: bounce 2s infinite, rotateIcon 8s infinite linear;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes rotateIcon {
+            0% { transform: rotateY(0); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(247, 37, 133, 0.2),
+                        0 8px 25px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            margin: 30px 0;
+            transform-style: preserve-3d;
+        }
+
+        .table thead tr {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+            transform: translateZ(10px);
+        }
+
+        .table th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .table th:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .table tbody tr {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .table tbody tr:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.2);
+        }
+
+        .table td {
+            padding: 15px;
+            vertical-align: middle;
+            border: none;
+            position: relative;
+        }
+
+        .table td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .table td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background: rgba(248, 249, 250, 0.8);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions a {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .actions a i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .actions a:hover i {
+            transform: translateX(3px);
+        }
+
+        .actions a.show {
+            background-color: var(--success-color);
+        }
+
+        .actions a.edit {
+            background-color: var(--accent-color);
+        }
+
+        .actions a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-records {
+            text-align: center;
+            padding: 30px;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .travel-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            perspective: 1000px;
+        }
+
+        .travel-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            animation: float 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0); }
+            50% { transform: translateY(-15px) rotateY(20deg); }
+        }
+
+        .travel-icon:nth-child(1) { animation-delay: 0s; color: var(--primary-color); }
+        .travel-icon:nth-child(2) { animation-delay: 0.5s; color: var(--accent-color); }
+        .travel-icon:nth-child(3) { animation-delay: 1s; color: var(--secondary-color); }
+
+        /* Nuages animés */
+        .clouds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(15px);
+            animation: moveCloud linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes moveCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+                width: 90%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .travel-icons {
+                gap: 20px;
+            }
+            
+            .travel-icon {
+                font-size: 2rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Barre de recherche
+            const searchInput = document.querySelector('.search-input');
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            const noResults = document.querySelector('.no-results');
+            const noRecords = document.querySelector('.no-records');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                let hasResults = false;
+                
+                tableRows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let rowMatches = false;
+                    
+                    cells.forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                            rowMatches = true;
+                        }
+                    });
+                    
+                    if (rowMatches) {
+                        row.style.display = '';
+                        hasResults = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Gérer l'affichage des messages "Aucun résultat" ou "Aucune réservation"
+                if (tableRows.length > 0) {
+                    if (!hasResults && searchTerm.length > 0) {
+                        noResults.style.display = 'block';
+                        noRecords.style.display = 'none';
+                    } else if (!hasResults) {
+                        noResults.style.display = 'none';
+                        noRecords.style.display = tableRows.length === 0 ? 'block' : 'none';
+                    } else {
+                        noResults.style.display = 'none';
+                        noRecords.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
-    <h1>Reservation index</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'navbar/navbarAdmin.html.twig' %}
+    {% elseif is_granted('ROLE_AGENCE') %}
+        {% include 'navbar/navbarAgence.html.twig' %}
+    {% elseif is_granted('ROLE_PASSAGER') %}
+        {% include 'navbar/navbarPassager.html.twig' %}
+    {% endif %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateReservation</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Classe</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ reservation.nom }}</td>
-                <td>{{ reservation.prenom }}</td>
-                <td>{{ reservation.classe }}</td>
-                <td>
-                    <a href="{{ path('app_reservation_index', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="travel-icons">
+            <i class="fas fa-plane travel-icon"></i>
+            <i class="fas fa-calendar-check travel-icon"></i>
+            <i class="fas fa-ticket-alt travel-icon"></i>
+        </div>
 
+        <h1>Liste des Réservations</h1>
+
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Rechercher dans toutes les colonnes...">
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date Réservation</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Classe</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ reservation.nom }}</td>
+                    <td>{{ reservation.prenom }}</td>
+                    <td>{{ reservation.classe }}</td>
+                    <td class="actions">
+
+                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="edit">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="no-records">Aucune réservation trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="no-results">Aucun résultat trouvé pour votre recherche</div>
+    </div>
+
+    <div class="clouds">
+        <div class="cloud" style="width: 100px; height: 60px; top: 20%; animation-duration: 30s;"></div>
+        <div class="cloud" style="width: 150px; height: 90px; top: 40%; animation-duration: 40s; animation-delay: -10s;"></div>
+        <div class="cloud" style="width: 80px; height: 50px; top: 70%; animation-duration: 25s; animation-delay: -5s;"></div>
+    </div>
 {% endblock %}

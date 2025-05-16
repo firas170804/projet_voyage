@@ -2,28 +2,24 @@
         <div class="container">
             {% if is_granted('ROLE_ADMIN') %}
         <a class="navbar-brand" href="{{ path('admin_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
           </a>
     {% elseif is_granted('ROLE_AGENCE') %}
         <a class="navbar-brand" href="{{ path('agence_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
           </a>
     {% elseif is_granted('ROLE_PASSAGER') %}
        <a class="navbar-brand" href="{{ path('passager_dashboard') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
           </a>
     {%else %}
         <a class="navbar-brand" href="{{ path('app_home') }}">
-            <img class="d-inline-block" src="deseign1/img/gallery/logo.png" width="50" alt="logo" />
             <span class="fw-bold text-primary ms-2">
               voyage
             </span>
@@ -40,7 +36,7 @@
                 <a class="nav-link" href="{{ path('app_vol_index') }}">
                   <span class="nav-link-icon text-800 me-1 fas fa-plane"></span>
                   <span class="nav-link-text">
-                    Flights
+                    Vols
                   </span>
                 </a>
               </li>
@@ -58,7 +54,7 @@
 
               <a href="{{ path('app_login') }}">
                 <span class="text-primary">
-                  Sign in
+                  Se connecter
                 </span>
               </a>
             </form>
