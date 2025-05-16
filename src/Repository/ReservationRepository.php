@@ -15,6 +15,22 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
+    public function countReservations(): int
+    {
+        return (int) $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function findLatestReservations(int $limit = 5): array
+{
+    return $this->createQueryBuilder('r')
+        ->orderBy('r.dateReservation', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
+
 
     //    /**
     //     * @return Reservation[] Returns an array of Reservation objects

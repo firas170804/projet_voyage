@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Passager;
+use App\Repository\VolRepository;
+use Symfony\Component\Security\Core\Security;
+use App\Repository\ReservationRepository;
+use App\Repository\CompagnieRepository;
+use App\Repository\UserRepository;
 
 final class HomeController extends AbstractController
 {
@@ -23,9 +28,24 @@ final class HomeController extends AbstractController
             return $this->render('passagerHome/index.html.twig');
     }
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
-        public function dashboard2(): Response
+        public function dashboard2(VolRepository $volRepository, ReservationRepository $reservationRepository, CompagnieRepository $compagnieRepository, UserRepository $userRepository): Response
         {
-            return $this->render('adminHome/index.html.twig');
+            $totalVols = $volRepository->countVols();
+            $totalReservations = $reservationRepository->countReservations();
+            $totCompagnies = $compagnieRepository->countCompagnies();
+            $totalUsers = $userRepository->countUsers();
+            $latestReservations = $reservationRepository->findLatestReservations();
+            $latestVols = $volRepository->findLatestVols();
+
+
+            return $this->render('adminHome/index.html.twig', [
+                'total_vols' => $totalVols,
+                'total_reservations' => $totalReservations,
+                'total_compagnies' => $totCompagnies,
+                'total_users' => $totalUsers,
+                'latest_reservations' => $latestReservations,
+                'latest_vols' => $latestVols,
+            ]);
     }
     #[Route('/agence/dashboard', name: 'agence_dashboard')]
         public function dashboard3(): Response

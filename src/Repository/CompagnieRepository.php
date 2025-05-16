@@ -15,6 +15,13 @@ class CompagnieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Compagnie::class);
     }
+    public function countCompagnies(): int
+    {
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
     //    /**
     //     * @return Compagnie[] Returns an array of Compagnie objects
