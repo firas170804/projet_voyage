@@ -42,15 +42,6 @@ class Vol
     #[ORM\ManyToOne(inversedBy: 'vols')]
     private ?Aeroport $aeroport = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $destination = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $depart = null;
-
-    #[ORM\ManyToOne(inversedBy: 'vol')]
-    private ?User $user = null;
-
     public function __construct()
     {
         $this->reservation = new ArrayCollection();
@@ -165,42 +156,6 @@ class Vol
     public function setAeroport(?Aeroport $aeroport): static
     {
         $this->aeroport = $aeroport;
-
-        return $this;
-    }
-
-    public function getDestination(): ?string
-    {
-        return $this->destination;
-    }
-
-    public function setDestination(string $destination): static
-    {
-        $this->destination = $destination;
-
-        return $this;
-    }
-
-    public function getDepart(): ?string
-    {
-        return $this->depart;
-    }
-
-    public function setDepart(string $depart): static
-    {
-        $this->depart = $depart;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }
