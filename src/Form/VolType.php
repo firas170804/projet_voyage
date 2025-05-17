@@ -37,6 +37,9 @@ class VolType extends AbstractType
                 'class' => Aeroport::class,
                 'choice_label' => 'nom',
             ])
+            ->add('depart')
+            ->add('destination')
+            
         ;
     }
 

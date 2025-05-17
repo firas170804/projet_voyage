@@ -89,7 +89,9 @@ final class ReservationController extends AbstractController
                 method_exists($user, 'getNom') ? $user->getNom() : $user->getUserIdentifier(),
                 method_exists($user, 'getprenom') ? $user->getPrenom() : $user->getUserIdentifier(),
                 $vol->getHeurDepart(),
-                $vol->getDate()
+                $vol->getDate(),
+                $vol->getDepart(),
+                $vol->getDestination()
             );
 
             $this->addFlash('success', 'Réservation effectuée avec succès !');

@@ -22,7 +22,9 @@ class ReservationMailer
         string $nomClient,
         string $prenom, 
         \DateTimeInterface $heuredepart, 
-        \DateTimeInterface $date
+        \DateTimeInterface $date,
+        string $depart,
+        string $destination
     ): void {
         $currentYear = date('Y');
         $formattedDate = $date->format('d/m/Y');
@@ -62,7 +64,14 @@ class ReservationMailer
                 <span style="color: #4361ee; margin-right: 10px;">🕒</span>
                 <span>Heure : <strong style="color: #4361ee;">$formattedHeureDepart</strong></span>
             </div>
-            
+            <div style="display: flex; align-items: center; margin: 10px 0; color: #333;">
+                <span style="color: #4361ee; margin-right: 10px;">🛫</span>
+                <span>Départ : <strong style="color: #4361ee;">$depart</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; margin: 10px 0; color: #333;">
+                <span style="color: #4361ee; margin-right: 10px;">🛬</span>
+                <span>Destination : <strong style="color: #4361ee;">$destination</strong></span>
+            </div>
             <div style="display: flex; align-items: center; margin: 10px 0; color: #333;">
                 <span style="color: #4361ee; margin-right: 10px;">✅</span>
                 <span>Statut : <strong style="color: #28a745;">Confirmé</strong></span>

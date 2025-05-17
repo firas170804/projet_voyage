@@ -460,6 +460,9 @@
                         <th>Date</th>
                         <th>Heure Départ</th>
                         <th>Heure Arrivée</th>
+                        <th>Départ</th>
+                        <th>Déstination</th>
+                                
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -470,6 +473,9 @@
                             <td>{{ vol.date | date('Y-m-d') }}</td>
                             <td>{{ vol.heurDepart | date('H:i') }}</td>
                             <td>{{ vol.heurArrive | date('H:i') }}</td>
+                            <td>{{ vol.depart }}</td>
+                            <td>{{ vol.destination }}</td>
+                            
                             <td class="action-links">
                                    {% if is_granted('ROLE_AGENCE') %}
                                     <a href="{{ path('app_vol_edit', {'id': vol.id}) }}">Modifier</a>
